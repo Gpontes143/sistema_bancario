@@ -52,6 +52,10 @@ float menu(float saldo_atual) {
       saldo_atual = armazenar_dinheiro(saldo_atual);
       break;
     case 2:
+      if (saldo_atual <= 0) {
+        printf("Voce nao tem dinheiro para executar a operacao\n\n");
+        break;
+      }
       saldo_atual = sacar_dinheiro(saldo_atual);
       break;
     case 3:
