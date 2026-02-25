@@ -3,46 +3,42 @@
 #include <stdlib.h>
 
 /**
- * @brief deposita dinheiro na conta
+ * @brief depositar dinheiro na conta
  *
- * @param saldo_atual valor que esta na conta do usuario
- * @return valor que esta na conta
+ * @param saldo_atual Dinheiro na conta
  */
-float armazenar_dinheiro(float saldo_atual) {
-  float dinheiro_armazenado;
+void depositar_dinheiro(float *saldo_atual) {
+  float dinheiro_armazenado = 0;
   printf("Quanto dinhero voce deseja armazenar?\n");
   scanf("%f", &dinheiro_armazenado);
   getchar();
-  saldo_atual = saldo_atual + dinheiro_armazenado;
-  return saldo_atual;
+  if (dinheiro_armazenado > 0) {
+    *saldo_atual = *saldo_atual + dinheiro_armazenado;
+  }
 }
 
 /**
- * @brief Permite  o usuario sacar o dinheiro que
- * esta na conta
+ * @brief Permite retirar dinheiro da conta
  *
- * @param saldo_atual saldo que esta na conta do usuario
- * @return retorna o saldo_atual
+ * @param saldo_atual dinheiro na conta
  */
-float sacar_dinheiro(float saldo_atual) {
-  float dinhero_a_sacar;
+void sacar_dinheiro(float *saldo_atual) {
+  float dinheiro_a_sacar = 0;
   printf("Quanto dinheiro deseja sacar\n");
-  scanf("%f", &dinhero_a_sacar);
+  scanf("%f", &dinheiro_a_sacar);
   getchar();
-  if (dinhero_a_sacar > saldo_atual) {
+  if (dinheiro_a_sacar > *saldo_atual) {
     printf("Voce nao consegue realizar essa operacao\nsaldo insuficiente\n");
-    return saldo_atual;
+    return;
   }
-  saldo_atual = saldo_atual - dinhero_a_sacar;
-  return saldo_atual;
+  *saldo_atual = *saldo_atual - dinheiro_a_sacar;
 }
 /**
- * @brief lida com a interface
+ * @brief lida com a interface do sistema
  *
- * @param saldo_atual valores na conta do usuario
- * @return valor na conta do usuario
+ * @param saldo_atual  dinheiro na conta
  */
-float menu(float saldo_atual) {
+void menu(float *saldo_atual) {
   int escolha = 0;
   int fim = 0;
   while (fim == 0) {
@@ -56,17 +52,17 @@ float menu(float saldo_atual) {
     getchar();
     switch (escolha) {
     case 1:
-      saldo_atual = armazenar_dinheiro(saldo_atual);
+      depositar_dinheiro(saldo_atual);
       break;
     case 2:
-      if (saldo_atual <= 0) {
+      if (*saldo_atual <= 0) {
         printf("Voce nao tem dinheiro para executar a operacao\n\n");
         break;
       }
-      saldo_atual = sacar_dinheiro(saldo_atual);
+      sacar_dinheiro(saldo_atual);
       break;
     case 3:
-      printf("%.2f\n", saldo_atual);
+      printf("%.2f\n", *saldo_atual);
       break;
     case 4:
       fim = 1;
@@ -76,12 +72,10 @@ float menu(float saldo_atual) {
       break;
     }
   }
-  return saldo_atual;
 }
 
 int main(int argc, char *argv[]) {
   float saldo_atual = 0;
-  float *prtsaldo_atual = &saldo_atual;
-  saldo_atual = menu(saldo_atual);
+  menu(&saldo_atual);
   return EXIT_SUCCESS;
 }
