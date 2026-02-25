@@ -12,6 +12,7 @@ float armazenar_dinheiro(float saldo_atual) {
   float dinheiro_armazenado;
   printf("Quanto dinhero voce deseja armazenar?\n");
   scanf("%f", &dinheiro_armazenado);
+  getchar();
   saldo_atual = saldo_atual + dinheiro_armazenado;
   return saldo_atual;
 }
@@ -27,6 +28,11 @@ float sacar_dinheiro(float saldo_atual) {
   float dinhero_a_sacar;
   printf("Quanto dinheiro deseja sacar\n");
   scanf("%f", &dinhero_a_sacar);
+  getchar();
+  if (dinhero_a_sacar > saldo_atual) {
+    printf("Voce nao consegue realizar essa operacao\nsaldo insuficiente\n");
+    return saldo_atual;
+  }
   saldo_atual = saldo_atual - dinhero_a_sacar;
   return saldo_atual;
 }
@@ -47,6 +53,7 @@ float menu(float saldo_atual) {
     printf("4 - sair\n");
 
     scanf("%d", &escolha);
+    getchar();
     switch (escolha) {
     case 1:
       saldo_atual = armazenar_dinheiro(saldo_atual);
@@ -64,13 +71,17 @@ float menu(float saldo_atual) {
     case 4:
       fim = 1;
       break;
+    default:
+      printf("escolha uma opcao valida\n");
+      break;
     }
   }
   return saldo_atual;
 }
 
 int main(int argc, char *argv[]) {
-  float saldo_atual;
+  float saldo_atual = 0;
+  float *prtsaldo_atual = &saldo_atual;
   saldo_atual = menu(saldo_atual);
   return EXIT_SUCCESS;
 }
